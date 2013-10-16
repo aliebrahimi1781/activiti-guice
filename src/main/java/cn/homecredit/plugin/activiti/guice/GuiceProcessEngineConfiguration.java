@@ -47,7 +47,7 @@ public class GuiceProcessEngineConfiguration extends
 		return defaultCommandInterceptorsTxRequiresNew;
 	}
 
-	@Override
+	/*@Override
 	protected void initJpa() {
 		super.initJpa();
 		if (jpaEntityManagerFactory != null) {
@@ -56,16 +56,24 @@ public class GuiceProcessEngineConfiguration extends
 							jpaEntityManagerFactory, jpaHandleTransaction,
 							jpaCloseEntityManager));
 		}
+	}*/
+	
+	@Override
+	public ProcessEngineConfiguration setJpaEntityManagerFactory(
+			Object jpaEntityManagerFactory) {
+		return super.setJpaEntityManagerFactory(emf);
 	}
-	
-	
-	
 
 	@Override
-	public ProcessEngineConfigurationImpl setCustomSessionFactories(
-			List<SessionFactory> customSessionFactories) {
-		//regist groupManger 
-		return super.setCustomSessionFactories(customSessionFactories);
+	public ProcessEngineConfiguration setJpaHandleTransaction(
+			boolean jpaHandleTransaction) {
+		return super.setJpaHandleTransaction(true);
+	}
+
+	@Override
+	public ProcessEngineConfiguration setJpaCloseEntityManager(
+			boolean jpaCloseEntityManager) {
+		return super.setJpaCloseEntityManager(true);
 	}
 
 	@Override
