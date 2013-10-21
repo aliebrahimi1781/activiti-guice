@@ -7,9 +7,6 @@ import java.util.Set;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.activiti.engine.identity.GroupQuery;
-import org.activiti.engine.identity.User;
-import org.activiti.engine.identity.UserQuery;
-import org.activiti.engine.impl.persistence.entity.UserEntity;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
@@ -26,7 +23,6 @@ public class LdapLocalGroupRealm extends AbstractLdapLocalGroupRealm {
 			PrincipalCollection principals) {
 		String username = ((String) getAvailablePrincipal(principals))
 				.toLowerCase();
-		createUserIfNotExists(username);
 
 		// fetch roles and permissions from local db
 
@@ -37,24 +33,6 @@ public class LdapLocalGroupRealm extends AbstractLdapLocalGroupRealm {
 		}
 		
 		return buildAuthorizationInfo(roleNames);
-	}
-
-	private void createUserIfNotExists(String username) {
-		if (checkIfUsernameExists(username)) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Username " + username + " exists in local db!");
-			}
-			return;
-		}
-		User user = new UserEntity();
-		user.setId(username);
-		identityService.saveUser(user);
-
-	}
-
-	private boolean checkIfUsernameExists(String username) {
-		UserQuery query = identityService.createUserQuery().userId(username);
-		return query.count() > 0 ? true : false;
 	}
 
 	private Set<String> getRoleNamesForUser(String username) {
