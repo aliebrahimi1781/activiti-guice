@@ -3,27 +3,29 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cn.homecredit.plugin</groupId>
 	<artifactId>activiti-guice</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<properties>
 		<guice.version>3.0</guice.version>
-		<logback.version>1.0.13</logback.version>
 		<activiti.version>5.13</activiti.version>
-		<hibernate.version>3.6.1.Final</hibernate.version>
 	</properties>
 
-
 	<dependencies>
-		<dependency>
-			<groupId>cn.homecredit</groupId>
-			<artifactId>infrastructure</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.activiti</groupId>
 			<artifactId>activiti-engine</artifactId>
 			<version>${activiti.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.activiti</groupId>
@@ -43,10 +45,12 @@
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-persist</artifactId>
 			<version>${guice.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- end guice -->
 
@@ -60,11 +64,5 @@
 		</dependency>
 
 		<!-- end hibernate jpa -->
-
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.1</version>
-		</dependency>
 	</dependencies>
 </project>
